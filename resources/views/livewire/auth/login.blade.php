@@ -12,9 +12,12 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
-    #[Validate('required|string|email')]
+    #[Validate('required|in:admin,teacher,student,parent')]
+    public string $role = '';
+    public string $student_id = '';
+    public string $phone = '';    
     public string $email = '';
-
+ 
     #[Validate('required|string')]
     public string $password = '';
 
@@ -25,15 +28,30 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     public function login(): void
     {
-        $this->validate();
+        $this->validate(array_merge([
+        'role' => 'required|in:admin,teacher,student,parent',
+        'password' => 'required|string',
+    ], match ($this->role) {
+        'admin', 'teacher' => ['email' => 'required|email'],
+        'student' => ['student_id' => 'required|string'],
+        'parent' => ['phone' => 'required|string'],
+        default => [],
+    }));
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            $credentials = match ($this->role) {
+            'admin', 'teacher' => ['email' => $this->email, 'password' => $this->password],
+            'student' => ['student_id' => $this->student_id, 'password' => $this->password],
+            'parent' => ['phone' => $this->phone, 'password' => $this->password],
+            default => [],
+        };
+
+          if (! Auth::attempt($credentials, $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                $this->getLoginFieldName() => __('auth.failed'),
             ]);
         }
 
@@ -80,7 +98,21 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <form wire:submit="login" class="flex flex-col gap-6">
-        <!-- Email Address -->
+    <!-- Role Selection -->
+    <flux:select
+        wire:model="role"
+        :label="__('Login as')"
+        required
+    >
+        <option value="">{{ __('Select role') }}</option>
+        <option value="admin">{{ __('Admin') }}</option>
+        <option value="teacher">{{ __('Teacher') }}</option>
+        <option value="student">{{ __('Student') }}</option>
+        <option value="parent">{{ __('Parent') }}</option>
+    </flux:select>
+
+    <!-- Email (Admin/Teacher) -->
+    @if(in_array($role, ['admin', 'teacher']))
         <flux:input
             wire:model="email"
             :label="__('Email address')"
@@ -90,6 +122,31 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autocomplete="email"
             placeholder="email@example.com"
         />
+    @endif
+
+    <!-- Student ID -->
+    @if($role === 'student')
+        <flux:input
+            wire:model="student_id"
+            :label="__('Student ID')"
+            type="text"
+            required
+            autofocus
+            placeholder="e.g. S12345678"
+        />
+    @endif
+
+    <!-- Phone Number -->
+    @if($role === 'parent')
+        <flux:input
+            wire:model="phone"
+            :label="__('Phone Number')"
+            type="text"
+            required
+            autofocus
+            placeholder="e.g. +1234567890"
+        />
+    @endif
 
         <!-- Password -->
         <div class="relative">

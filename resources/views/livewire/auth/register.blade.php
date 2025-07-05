@@ -9,8 +9,11 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
+    public string $role = '';
     public string $name = '';
     public string $email = '';
+    public string $student_id = '';
+    public string $phone = '';
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -19,16 +22,37 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     public function register(): void
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+        $baseRules = [
+            'role' => ['required', 'in:admin,teacher,student,parent'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ];
+
+        $roleSpecificRules = match ($this->role) {
+            'admin', 'teacher' => [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            ],
+            'student' => [
+                'name' => ['required', 'string', 'max:255'],
+                'student_id' => ['required', 'string', 'unique:' . User::class . ',student_id'],
+            ],
+            'parent' => [
+                'name' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'unique:' . User::class . ',phone'],
+            ],
+            default => [],
+        };
+
+        $validated = $this->validate([...$baseRules, ...$roleSpecificRules]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        $user = User::create([
+            ...$validated,
+            'role' => $this->role,
+        ]);
 
+        event(new Registered($user));
         Auth::login($user);
 
         $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
@@ -42,26 +66,60 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <form wire:submit="register" class="flex flex-col gap-6">
-        <!-- Name -->
-        <flux:input
-            wire:model="name"
-            :label="__('Name')"
-            type="text"
-            required
+    <!-- Role Selection -->
+    <flux:select  wire:model="role"     :label="__('Register as')"        required
+    >
+        <option value="">{{ __('Select role') }}</option>
+        <option value="admin">{{ __('Admin') }}</option>
+        <option value="teacher">{{ __('Teacher') }}</option>
+        <option value="student">{{ __('Student') }}</option>
+        <option value="parent">{{ __('Parent') }}</option>
+    </flux:select>
+
+    <!-- Name (all roles) -->
+    <flux:input
+        wire:model="name"
+        :label="__('Name')"
+        type="text"
+        required
+
             autofocus
             autocomplete="name"
             :placeholder="__('Full name')"
         />
 
-        <!-- Email Address -->
+    <!-- Email (Admin/Teacher only) -->
+    @if(in_array($role, ['admin', 'teacher']))
         <flux:input
             wire:model="email"
             :label="__('Email address')"
             type="email"
             required
-            autocomplete="email"
             placeholder="email@example.com"
         />
+    @endif
+
+    <!-- Student ID (Student only) -->
+    @if($role === 'student')
+        <flux:input
+            wire:model="student_id"
+            :label="__('Student ID')"
+            type="text"
+            required
+            placeholder="e.g. S12345678"
+        />
+    @endif
+
+    <!-- Phone Number (Parent only) -->
+    @if($role === 'parent')
+        <flux:input
+            wire:model="phone"
+            :label="__('Phone Number')"
+            type="text"
+            required
+            placeholder="e.g. +1234567890"
+        />
+    @endif
 
         <!-- Password -->
         <flux:input

@@ -9,8 +9,11 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
+    public string $role = '';
     public string $name = '';
     public string $email = '';
+    public string $student_id = '';
+    public string $mobile_number = '';
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -19,16 +22,34 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     public function register(): void
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+        $base_rules = [
+            'role' => ['required', 'in:account,teacher,student,parent'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ];
+
+        $role_specific_rules = match ($this->role) {
+            'admin', 'teacher' => [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            ],
+            'student' => [
+                'name' => ['required', 'string', 'max:255'],
+                'student_id' => ['required', 'string', 'unique:' . User::class . ',student_id'],
+            ],
+            'parent' => [
+                'name' => ['required', 'string', 'max:255'],
+                'mobile_number' => ['required', 'string', 'unique:' . User::class . ',mobile_number'],
+            ],
+            default => [],
+        };
+
+        $validated = $this->validate([...$base_rules, ...$role_specific_rules]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        $user = User::create([...$validated, 'role' => $this->role]);
 
+        event(new Registered($user));
         Auth::login($user);
 
         $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
@@ -41,50 +62,47 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6">
-        <!-- Name -->
-        <flux:input
-            wire:model="name"
-            :label="__('Name')"
-            type="text"
-            required
-            autofocus
-            autocomplete="name"
-            :placeholder="__('Full name')"
-        />
+    <form wire:submit="register" x-data="{ role: @entangle('role') }" class="flex flex-col gap-6">
+        <!-- Role Selection -->
+        <flux:select wire:model="role" :label="__('Register as')" required>
+            <option value="">{{ __('Select role') }}</option>
+            {{-- <option value="admin">{{ __('Admin') }}</option> --}}
+            <option value="teacher">{{ __('Teacher') }}</option>
+            <option value="student">{{ __('Student') }}</option>
+            <option value="parent">{{ __('Parent') }}</option>
+        </flux:select>
 
-        <!-- Email Address -->
-        <flux:input
-            wire:model="email"
-            :label="__('Email address')"
-            type="email"
-            required
-            autocomplete="email"
-            placeholder="email@example.com"
-        />
+        <!-- Name (All roles) -->
+        <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name"
+            :placeholder="__('Full name')" />
+
+        <!-- Email (Admin/Teacher only) -->
+        <template x-if="role === 'admin' || role === 'teacher'">
+            <flux:input wire:model="email" :label="__('Email address')" type="email" required
+                placeholder="email@example.com" />
+        </template>
+
+        <!-- Student ID (Student only) -->
+        <template x-if="role === 'student'">
+            <flux:input wire:model="student_id" :label="__('Student ID')" type="text" required
+                placeholder="e.g. S12345678" />
+        </template>
+
+        <!-- mobile_number Number (Parent only) -->
+        <template x-if="role === 'parent'">
+            <flux:input wire:model="mobile_number" :label="__('Mobile Number')" type="text" required
+                placeholder="e.g. +1234567890" />
+        </template>
 
         <!-- Password -->
-        <flux:input
-            wire:model="password"
-            :label="__('Password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Password')"
-            viewable
-        />
+        <flux:input wire:model="password" :label="__('Password')" type="password" required autocomplete="new-password"
+            :placeholder="__('Password')" viewable />
 
         <!-- Confirm Password -->
-        <flux:input
-            wire:model="password_confirmation"
-            :label="__('Confirm password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Confirm password')"
-            viewable
-        />
+        <flux:input wire:model="password_confirmation" :label="__('Confirm password')" type="password" required
+            autocomplete="new-password" :placeholder="__('Confirm password')" viewable />
 
+        <!-- Submit Button -->
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
                 {{ __('Create account') }}

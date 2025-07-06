@@ -13,7 +13,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     public string $name = '';
     public string $email = '';
     public string $student_id = '';
-    public string $phone = '';
+    public string $mobile_number = '';
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -38,7 +38,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             ],
             'parent' => [
                 'name' => ['required', 'string', 'max:255'],
-                'phone' => ['required', 'string', 'unique:' . User::class . ',phone'],
+                'mobile_number' => ['required', 'string', 'unique:' . User::class . ',mobile_number'],
             ],
             default => [],
         };
@@ -88,9 +88,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 placeholder="e.g. S12345678" />
         </template>
 
-        <!-- Phone Number (Parent only) -->
+        <!-- mobile_number Number (Parent only) -->
         <template x-if="role === 'parent'">
-            <flux:input wire:model="phone" :label="__('Phone Number')" type="text" required
+            <flux:input wire:model="mobile_number" :label="__('Mobile Number')" type="text" required
                 placeholder="e.g. +1234567890" />
         </template>
 

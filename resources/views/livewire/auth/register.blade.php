@@ -22,12 +22,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     public function register(): void
     {
-        $baseRules = [
-            'role' => ['required', 'in:admin,teacher,student,parent'],
+        $base_rules = [
+            'role' => ['required', 'in:account,teacher,student,parent'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ];
 
-        $roleSpecificRules = match ($this->role) {
+        $role_specific_rules = match ($this->role) {
             'admin', 'teacher' => [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
@@ -43,14 +43,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
             default => [],
         };
 
-        $validated = $this->validate([...$baseRules, ...$roleSpecificRules]);
+        $validated = $this->validate([...$base_rules, ...$role_specific_rules]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        $user = User::create([
-            ...$validated,
-            'role' => $this->role,
-        ]);
+        $user = User::create([...$validated, 'role' => $this->role]);
 
         event(new Registered($user));
         Auth::login($user);
@@ -65,53 +62,53 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
- <form wire:submit="register" x-data="{ role: @entangle('role') }" class="flex flex-col gap-6">
-    <!-- Role Selection -->
-    <flux:select wire:model="role" :label="__('Register as')" required>
-        <option value="">{{ __('Select role') }}</option>
-        <option value="admin">{{ __('Admin') }}</option>
-        <option value="teacher">{{ __('Teacher') }}</option>
-        <option value="student">{{ __('Student') }}</option>
-        <option value="parent">{{ __('Parent') }}</option>
-    </flux:select>
+    <form wire:submit="register" x-data="{ role: @entangle('role') }" class="flex flex-col gap-6">
+        <!-- Role Selection -->
+        <flux:select wire:model="role" :label="__('Register as')" required>
+            <option value="">{{ __('Select role') }}</option>
+            {{-- <option value="admin">{{ __('Admin') }}</option> --}}
+            <option value="teacher">{{ __('Teacher') }}</option>
+            <option value="student">{{ __('Student') }}</option>
+            <option value="parent">{{ __('Parent') }}</option>
+        </flux:select>
 
-    <!-- Name (All roles) -->
-    <flux:input wire:model="name" :label="__('Name')" type="text" required
-        autofocus autocomplete="name" :placeholder="__('Full name')" />
+        <!-- Name (All roles) -->
+        <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name"
+            :placeholder="__('Full name')" />
 
-    <!-- Email (Admin/Teacher only) -->
-    <template x-if="role === 'admin' || role === 'teacher'">
-        <flux:input wire:model="email" :label="__('Email address')" type="email" required
-            placeholder="email@example.com" />
-    </template>
+        <!-- Email (Admin/Teacher only) -->
+        <template x-if="role === 'admin' || role === 'teacher'">
+            <flux:input wire:model="email" :label="__('Email address')" type="email" required
+                placeholder="email@example.com" />
+        </template>
 
-    <!-- Student ID (Student only) -->
-    <template x-if="role === 'student'">
-        <flux:input wire:model="student_id" :label="__('Student ID')" type="text" required
-            placeholder="e.g. S12345678" />
-    </template>
+        <!-- Student ID (Student only) -->
+        <template x-if="role === 'student'">
+            <flux:input wire:model="student_id" :label="__('Student ID')" type="text" required
+                placeholder="e.g. S12345678" />
+        </template>
 
-    <!-- Phone Number (Parent only) -->
-    <template x-if="role === 'parent'">
-        <flux:input wire:model="phone" :label="__('Phone Number')" type="text" required
-            placeholder="e.g. +1234567890" />
-    </template>
+        <!-- Phone Number (Parent only) -->
+        <template x-if="role === 'parent'">
+            <flux:input wire:model="phone" :label="__('Phone Number')" type="text" required
+                placeholder="e.g. +1234567890" />
+        </template>
 
-    <!-- Password -->
-    <flux:input wire:model="password" :label="__('Password')" type="password" required
-        autocomplete="new-password" :placeholder="__('Password')" viewable />
+        <!-- Password -->
+        <flux:input wire:model="password" :label="__('Password')" type="password" required autocomplete="new-password"
+            :placeholder="__('Password')" viewable />
 
-    <!-- Confirm Password -->
-    <flux:input wire:model="password_confirmation" :label="__('Confirm password')" type="password" required
-        autocomplete="new-password" :placeholder="__('Confirm password')" viewable />
+        <!-- Confirm Password -->
+        <flux:input wire:model="password_confirmation" :label="__('Confirm password')" type="password" required
+            autocomplete="new-password" :placeholder="__('Confirm password')" viewable />
 
-    <!-- Submit Button -->
-    <div class="flex items-center justify-end">
-        <flux:button type="submit" variant="primary" class="w-full">
-            {{ __('Create account') }}
-        </flux:button>
-    </div>
-</form>
+        <!-- Submit Button -->
+        <div class="flex items-center justify-end">
+            <flux:button type="submit" variant="primary" class="w-full">
+                {{ __('Create account') }}
+            </flux:button>
+        </div>
+    </form>
 
     <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
         <span>{{ __('Already have an account?') }}</span>

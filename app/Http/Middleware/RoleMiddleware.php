@@ -21,7 +21,7 @@ class RoleMiddleware
         }
 
         if (Auth::user()->role !== $role) {
-            Auth::logout(); // optional
+            // Auth::logout(); // optional
             return redirect()->route('login')->withErrors([
                 'unauthorized' => 'Access denied. You are not authorized for this section.',
             ]);

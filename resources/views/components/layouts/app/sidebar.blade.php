@@ -49,21 +49,28 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                            <div class="grid flex-1 text-start text-sm leading-tight">
+                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
+                                @php
+                                    $user = auth()->user();
+                                    $secondaryInfo = $user->email ?? ($user->mobile_number ?? $user->student_id);
+                                @endphp
+
+                                @if ($secondaryInfo)
+                                    <span class="truncate text-xs">{{ $secondaryInfo }}</span>
+                                @endif
                             </div>
                         </div>
-                    </flux:menu.radio.group>
+                    </div>
+                </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                <flux:menu.separator />
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                <flux:menu.separator />
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
@@ -79,7 +86,7 @@
         <flux:header class="lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            <flux:spacer />
+        <flux:spacer />
 
             <flux:dropdown position="top" align="end">
                 <flux:profile
@@ -99,13 +106,20 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                            <div class="grid flex-1 text-start text-sm leading-tight">
+                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
+                                @php
+                                    $user = auth()->user();
+                                    $secondaryInfo = $user->email ?? ($user->mobile_number ?? $user->student_id);
+                                @endphp
+
+                                @if ($secondaryInfo)
+                                    <span class="truncate text-xs">{{ $secondaryInfo }}</span>
+                                @endif
                             </div>
                         </div>
-                    </flux:menu.radio.group>
+                    </div>
+                </flux:menu.radio.group>
 
                     <flux:menu.separator />
 

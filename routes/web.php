@@ -2,12 +2,32 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
 Route::middleware(['auth'])->group(function () {
+Route::get('/dashboard', function () {
+     $user = Auth::user();
+
+    switch ($user->role) {
+        case 'admin':
+            return redirect()->route('admin.dashboard');
+        case 'teacher':
+            return redirect()->route('teacher.dashboard');
+        case 'student':
+            return redirect()->route('student.dashboard');
+        case 'parent':
+            return redirect()->route('parent.dashboard');
+        case 'account':
+            // Add this if you have an account dashboard
+            return redirect()->route('account.dashboard');
+        default:
+            abort(403, 'Unauthorized');
+    }
+})->name('dashboard');
 
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/dashboard', function () {
@@ -35,9 +55,6 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

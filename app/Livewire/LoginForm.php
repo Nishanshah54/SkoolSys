@@ -1,19 +1,20 @@
 <?php
+namespace App\Livewire;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
-use Livewire\Volt\Component;
-
-new #[Layout('components.layouts.auth')] class extends Component {
-    #[Validate('required|in:admin,teacher,student,parent')]
-    public string $role = '';
+class LoginForm extends Component
+{
+ public string $role = '';
     public string $student_id = '';
     public string $phone = '';
     public string $email = '';
@@ -23,26 +24,33 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
     public bool $remember = false;
 
-    public function login(): void
-    {
-        $this->validate($this->rules());
+public function login(): void
+{
+    $this->validate($this->rules());
+    $this->ensureIsNotRateLimited();
 
-        $this->ensureIsNotRateLimited();
+    if (!Auth::attempt($this->credentials(), $this->remember)) {
+        RateLimiter::hit($this->throttleKey());
 
-        if (!Auth::attempt($this->credentials(), $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
+        throw ValidationException::withMessages([
+            $this->getLoginFieldName() => __('auth.failed'),
+        ]);
+    }
 
-            throw ValidationException::withMessages([
-                $this->getLoginFieldName() => __('auth.failed'),
-            ]);
-        }
+    RateLimiter::clear($this->throttleKey());
+    Session::regenerate();
 
-        RateLimiter::clear($this->throttleKey());
-        Session::regenerate();
+    // Defensive check (optional but safe)
+    if (!Auth::check()) {
+        throw ValidationException::withMessages([
+            $this->getLoginFieldName() => __('Authentication succeeded, but user session was not established.'),
+        ]);
+    }
 
     // Redirect to role-based dashboard
     $this->redirect(route($this->dashboardRouteName()), navigate: true);
 }
+
 
 protected function dashboardRouteName(): string
 {
@@ -123,7 +131,4 @@ protected function dashboardRouteName(): string
             default => 'email',
         };
     }
-}; ?>
-
-
-@include('livewire.login-form')
+};

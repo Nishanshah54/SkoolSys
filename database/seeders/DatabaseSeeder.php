@@ -20,5 +20,20 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@skoolsys.com',
             'role'=>'admin'
         ]);
+        User::factory()->create([
+            'name' => 'Test Teacher',
+            'email' => 'teacher@skoolsys.com',
+            'role'=>'teacher'
+        ]);
+        User::factory()->create([
+            'name' => 'Test student',
+            'student_id' => 'skoolsys_1001',
+            'role'=>'student'
+        ]);
+        User::factory()->create([
+            'name' => 'Test parent',
+            'mobile_number' => 'parent@skoolsys.com',
+            'role'=>'parent'
+        ]);
     }
 }

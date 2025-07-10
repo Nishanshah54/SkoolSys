@@ -20,13 +20,41 @@
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                {{-- <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
                 {{ __('Repository') }}
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
                 {{ __('Documentation') }}
-                </flux:navlist.item>
+                </flux:navlist.item> --}}
+<flux:navlist.item icon="users" href="/admin/students">
+    {{ __('Manage Students') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="academic-cap" href="/admin/teachers">
+    {{ __('Manage Teachers') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="book-open-text" href="/admin/courses">
+    {{ __('Manage Courses') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="calendar-date-range" href="/admin/schedule">
+    {{ __('Class Schedule') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="adjustments-horizontal" href="/admin/settings">
+    {{ __('System Settings') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="lock-closed" href="/admin/roles-permissions">
+    {{ __('Roles & Permissions') }}
+</flux:navlist.item>
+
+<flux:navlist.item icon="arrow-trending-up" href="/admin/reports">
+    {{ __('Reports & Analytics') }}
+</flux:navlist.item>
+
             </flux:navlist>
 
             <!-- Desktop User Menu -->

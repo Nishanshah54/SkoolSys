@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\StudentController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Auth;
@@ -30,9 +32,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/admin/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
     });
 
     Route::middleware(['role:teacher'])->group(function () {
@@ -54,6 +54,7 @@ Route::get('/dashboard', function () {
     });
 
 });
+    Route::get('/admin/students', [StudentController::class, 'index'])->name('admin.students.index');
 
 
 Route::middleware(['auth'])->group(function () {

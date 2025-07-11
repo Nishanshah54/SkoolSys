@@ -23,12 +23,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $role = fake()->randomElement(['admin', 'teacher', 'student', 'parent', 'account']);
+
         return [
-            'name' => fake()->name(),
+           'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => $role,
+            'mobile_number' => fake()->unique()->phoneNumber(),
+            'student_id' => $role === 'student' ? strtoupper(Str::random(8)) : null,
         ];
     }
 

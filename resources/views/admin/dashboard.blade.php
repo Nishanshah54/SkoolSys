@@ -7,6 +7,8 @@
 
         <!-- Stats Cards -->
         <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+            @php $data=array_diff_assoc($count);
+             @endphp
             <!-- Students -->
             <div
                 class="relative flex flex-col justify-between aspect-video rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900">
@@ -18,7 +20,8 @@
                     Students
                 </div>
                 <div class="mt-2  text-3xl text-center p-8 font-bold text-gray-900 dark:text-white">
-                    <strong>1000</strong>
+
+                    <strong>{{ $data['total_student'] }}</strong>
 
                 </div>
             </div>
@@ -33,7 +36,7 @@
                     Teachers
                 </div>
                 <div class="mt-2 text-3xl text-center p-8  font-bold text-gray-900 dark:text-white">
-                    <span>50</span>
+                    <span>{{$data['total_teacher']}}</span>
 
                 </div>
             </div>
@@ -48,7 +51,9 @@
 
                     Parents
                 </div>
-                <div class="mt-2 text-3xl text-center p-8 font-bold text-gray-900 dark:text-white">510</div>
+                <div class="mt-2 text-3xl text-center p-8 font-bold text-gray-900 dark:text-white">
+                    <span>{{$data['total_parent']}}</span>
+                </div>
             </div>
 
             <!-- Accounts -->

@@ -9,14 +9,25 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = '';
     public string $email = '';
+    public string $student_id = '';
+    public string $mobile_number = '';
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $user = Auth::user();
+
+        $this->name = $user->name;
+
+        if ($user->email) {
+            $this->email = $user->email;
+        } elseif ($user->student_id) {
+            $this->student_id = $user->student_id;
+        } elseif ($user->mobile_number) {
+            $this->mobile_number = $user->mobile_number;
+        }
     }
 
     /**
@@ -77,14 +88,23 @@ new class extends Component {
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
 
             <div>
-                <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+                @auth
+                    @if (auth()->user()?->email)
+                        <flux:input wire:model="email" :label="__('Email')" type="email" required />
+                    @elseif (auth()->user()?->student_id)
+                        <flux:input wire:model="student_id" :label="__('Student ID')" type="text" required />
+                    @elseif (auth()->user()?->mobile_number ?? auth()->user()?->phone)
+                        <flux:input wire:model="mobile_number" :label="__('Mobile Number')" type="text" required />
+                    @endif
+                @endauth
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
+                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                     <div>
                         <flux:text class="mt-4">
                             {{ __('Your email address is unverified.') }}
 
-                            <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
+                            <flux:link class="text-sm cursor-pointer"
+                                wire:click.prevent="resendVerificationNotification">
                                 {{ __('Click here to re-send the verification email.') }}
                             </flux:link>
                         </flux:text>

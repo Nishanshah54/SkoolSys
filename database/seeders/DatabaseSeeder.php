@@ -35,5 +35,9 @@ class DatabaseSeeder extends Seeder
             'mobile_number' => 'parent@skoolsys.com',
             'role'=>'parent'
         ]);
+
+        $this->call([
+            UserSeeder::class,
+        ]);
     }
 }

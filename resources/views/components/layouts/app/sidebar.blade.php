@@ -18,17 +18,45 @@
             </flux:navlist>
 
             <flux:spacer />
-
+        @if (auth()->check() && auth()->user()->email && auth()->user()->role === 'admin')
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
+                <!-- Group: Academics -->
+                <x-sidebar-dropdown title="Academics" :index="1">
+                    <flux:navlist.item icon="users" href="/admin/students">
+                        {{ __('Manage Students') }}
+                    </flux:navlist.item>
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
+                    <flux:navlist.item icon="academic-cap" href="/admin/teachers">
+                        {{ __('Manage Teachers') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="book-open-text" href="/admin/courses">
+                        {{ __('Manage Courses') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="calendar-date-range" href="/admin/schedule">
+                        {{ __('Class Schedule') }}
+                    </flux:navlist.item>
+                </x-sidebar-dropdown>
+
+                <!-- Group: Administration -->
+                <x-sidebar-dropdown title="Administration" :index="2">
+                    <flux:navlist.item icon="adjustments-horizontal" href="/admin/settings">
+                        {{ __('System Settings') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="lock-closed" href="/admin/roles-permissions">
+                        {{ __('Roles & Permissions') }}
+                    </flux:navlist.item>
+                </x-sidebar-dropdown>
+                <x-sidebar-dropdown title="Reports and Analytics" :index="3">
+                    <flux:navlist.item icon="arrow-trending-up" href="/admin/reports">
+                        {{ __('Reports & Analytics') }}
+                    </flux:navlist.item>
+                </x-sidebar-dropdown>
+
             </flux:navlist>
-
+        @endif
             <!-- Desktop User Menu -->
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
                 <flux:profile
@@ -49,21 +77,28 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                            <div class="grid flex-1 text-start text-sm leading-tight">
+                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
+                                @php
+                                    $user = auth()->user();
+                                    $secondaryInfo = $user->email ?? ($user->mobile_number ?? $user->student_id);
+                                @endphp
+
+                                @if ($secondaryInfo)
+                                    <span class="truncate text-xs">{{ $secondaryInfo }}</span>
+                                @endif
                             </div>
                         </div>
-                    </flux:menu.radio.group>
+                    </div>
+                </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                <flux:menu.separator />
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                <flux:menu.separator />
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
@@ -79,7 +114,7 @@
         <flux:header class="lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            <flux:spacer />
+        <flux:spacer />
 
             <flux:dropdown position="top" align="end">
                 <flux:profile
@@ -99,13 +134,20 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                            <div class="grid flex-1 text-start text-sm leading-tight">
+                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
+                                @php
+                                    $user = auth()->user();
+                                    $secondaryInfo = $user->email ?? ($user->mobile_number ?? $user->student_id);
+                                @endphp
+
+                                @if ($secondaryInfo)
+                                    <span class="truncate text-xs">{{ $secondaryInfo }}</span>
+                                @endif
                             </div>
                         </div>
-                    </flux:menu.radio.group>
+                    </div>
+                </flux:menu.radio.group>
 
                     <flux:menu.separator />
 

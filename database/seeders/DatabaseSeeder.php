@@ -2,42 +2,73 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+    protected static array $usedStudentIds = [];
+
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 🔹 Seed students
+        Student::factory()->count(10)->create();
 
+        // 🔹 Create Admin
         User::factory()->create([
             'name' => 'Test Admin',
             'email' => 'admin@skoolsys.com',
-            'role'=>'admin'
+            'role' => 'admin',
+            'status' => true,
         ]);
+
+        // 🔹 Create Teacher
         User::factory()->create([
             'name' => 'Test Teacher',
             'email' => 'teacher@skoolsys.com',
-            'role'=>'teacher'
-        ]);
-        User::factory()->create([
-            'name' => 'Test student',
-            'student_id' => 'skoolsys_1001',
-            'role'=>'student'
-        ]);
-        User::factory()->create([
-            'name' => 'Test parent',
-            'mobile_number' => 'parent@skoolsys.com',
-            'role'=>'parent'
+            'role' => 'teacher',
         ]);
 
-        $this->call([
-            UserSeeder::class,
+        // 🔹 Create Student User
+        $student = Student::whereNotNull('mobile_number')
+            ->whereNotIn('student_id', self::$usedStudentIds)
+            ->whereNotIn('mobile_number', User::pluck('mobile_number')->filter()->all())
+            ->inRandomOrder()
+            ->first();
+
+        if (!$student) {
+            throw new \Exception('No available student with a unique mobile_number found.');
+        }
+
+        self::$usedStudentIds[] = $student->student_id;
+
+        User::factory()->create([
+            'name' => 'Test Student',
+            'email' => 'student@skoolsys.com',
+            'role' => 'student',
+            'student_id' => $student->student_id,
+            'mobile_number' => $student->mobile_number,
+        ]);
+
+        // 🔹 Create Parent User
+        $anotherStudent = Student::whereNotNull('mobile_number')
+            ->whereNotIn('student_id', self::$usedStudentIds)
+            ->whereNotIn('mobile_number', User::pluck('mobile_number')->filter()->all())
+            ->inRandomOrder()
+            ->first();
+
+        if (!$anotherStudent) {
+            throw new \Exception('No additional student with a unique mobile_number for the parent user.');
+        }
+
+        self::$usedStudentIds[] = $anotherStudent->student_id;
+
+        User::factory()->create([
+            'name' => 'Test Parent',
+            'email' => 'parent@skoolsys.com',
+            'role' => 'parent',
+            'mobile_number' => $anotherStudent->mobile_number,
         ]);
     }
 }

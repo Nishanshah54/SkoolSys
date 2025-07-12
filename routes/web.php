@@ -33,6 +33,8 @@ Route::get('/dashboard', function () {
 
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+         Route::get('/admin/students', [StudentController::class, 'index'])->name('admin.students.index');
+
     });
 
     Route::middleware(['role:teacher'])->group(function () {
@@ -54,7 +56,6 @@ Route::get('/dashboard', function () {
     });
 
 });
-    Route::get('/admin/students', [StudentController::class, 'index'])->name('admin.students.index');
 
 
 Route::middleware(['auth'])->group(function () {

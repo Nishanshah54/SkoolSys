@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table)
         {
-                $table->string('student_id', 8)->primary(); // 8-character string primary key
-                $table->string('name');
-                $table->enum('education',['primary', 'secondary', 'higher', 'bachelor']);
-                $table->string( 'mobile_number')->nullable()->index();
-                // $table->string('email');
-                $table->timestamps();
+            $table->id(); // auto-increment PK
+            $table->string('student_id')->unique()->nullable();
+            $table->string('name');
+            $table->enum('education',['primary', 'secondary', 'higher', 'bachelor']);
+            $table->string('mobile_number')->nullable()->index();
+            $table->timestamps();
         });
 
     }

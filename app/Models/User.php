@@ -25,7 +25,7 @@ class User extends Authenticatable
         'role',
         'mobile_number',
         'student_id'
-        
+
     ];
 
     /**
@@ -62,4 +62,9 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+        public function user()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
 }

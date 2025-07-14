@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Livewire\AddStudent;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Auth;
@@ -11,29 +12,33 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth'])->group(function () {
-Route::get('/dashboard', function () {
-     $user = Auth::user();
+    Route::get('/dashboard', function () {
+        $user = Auth::user();
 
-    switch ($user->role) {
-        case 'admin':
-            return redirect()->route('admin.dashboard');
-        case 'teacher':
-            return redirect()->route('teacher.dashboard');
-        case 'student':
-            return redirect()->route('student.dashboard');
-        case 'parent':
-            return redirect()->route('parent.dashboard');
-        case 'account':
-            // Add this if you have an account dashboard
-            return redirect()->route('account.dashboard');
-        default:
-            abort(403, 'Unauthorized');
-    }
-})->name('dashboard');
+        switch ($user->role) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'teacher':
+                return redirect()->route('teacher.dashboard');
+            case 'student':
+                return redirect()->route('student.dashboard');
+            case 'parent':
+                return redirect()->route('parent.dashboard');
+            case 'account':
+                // Add this if you have an account dashboard
+                return redirect()->route('account.dashboard');
+            default:
+                abort(403, 'Unauthorized');
+        }
+    })->name('dashboard');
 
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
-         Route::get('/admin/students', [StudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin/students', action: [StudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/students/add', [StudentController::class,'store'])->name(name: 'students.add');
+        Route::get('/students/edit/{student}', AddStudent::class)->name('students.edit');
+        Route::get('/students/view/{student}', [StudentController::class, 'show'])->name('students.show');
+        Route::delete('/students/{student}',  [StudentController::class, 'destroy'])->name('students.destroy');
 
     });
 
@@ -54,7 +59,6 @@ Route::get('/dashboard', function () {
             return view('parent.dashboard');
         })->name('parent.dashboard');
     });
-
 });
 
 
@@ -66,4 +70,4 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

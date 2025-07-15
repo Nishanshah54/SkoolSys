@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/students/edit/{student}', AddStudent::class)->name('students.edit');
         Route::get('/students/view/{student}', [StudentController::class, 'show'])->name('students.show');
         Route::delete('/students/{student}',  [StudentController::class, 'destroy'])->name('students.destroy');
+        Route::post('/students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
+        Route::delete('/students/{id}/force-delete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
 
     });
 

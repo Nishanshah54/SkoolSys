@@ -14,6 +14,7 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $view = $request->input('view');
+
         $search = $request->input('search');
 
         if ($view === 'trash') {
@@ -31,7 +32,7 @@ class StudentController extends Controller
             });
         }
 
-        $students = $query->latest()->paginate(10);
+        $students = $query->latest()->paginate(config("skoolsys.paginate_page") ?? 5);
 
         $total = Student::count();
         $trashed = Student::onlyTrashed()->count();

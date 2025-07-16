@@ -11,11 +11,17 @@
             </a>
         </div>
 
-        <!-- Success Message -->
+ <!-- Success Message -->
         @if (session()->has('success'))
-            <div class="p-4 rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700">
-                {{ session('success') }}
+
+            <div
+                class="p-4 rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700">
+                @if (session()->has('success'))
+                    <x-ui.alert variant="success" :title="__('Success')" :description="session('success')" />
+                @endif
+
             </div>
+
         @endif
 
         <!-- Section Title -->
@@ -75,7 +81,7 @@
             <!-- Restore Option -->
             <form method="POST" action="{{ route('students.restore', $student->id) }}">
                 @csrf
-                <button type="submit"       
+                <button type="submit"
                     class="w-full text-left block px-4 py-2 text-sm text-green-600 dark:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-700">
                     Restore
                 </button>

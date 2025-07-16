@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\admin\TeacherController;
 use App\Livewire\AddStudent;
+use App\Livewire\AddTeacher;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/students/{student}',  [StudentController::class, 'destroy'])->name('students.destroy');
         Route::post('/students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
         Route::delete('/students/{id}/force-delete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
+
+       Route::get('/teacher/edit/{id}', AddTeacher::class)->name('teacher.edit');
+        Route::resource('/admin/teacher',TeacherController::class)->names('admin.teacher');
+        Route::post('teacher/{id}/restore', [TeacherController::class, 'restore'])->name('teacher.restore');
+        Route::delete('teacher/{id}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.forceDelete');
 
     });
 

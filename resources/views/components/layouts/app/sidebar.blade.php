@@ -22,11 +22,11 @@
             <flux:navlist variant="outline">
                 <!-- Group: Academics -->
                 <x-sidebar-dropdown title="Academics" :index="1">
-                    <flux:navlist.item icon="users" href="/admin/students">
+                    <flux:navlist.item icon="users" href="{{route('admin.students.index')}}">
                         {{ __('Manage Students') }}
                     </flux:navlist.item>
 
-                    <flux:navlist.item icon="academic-cap" href="/admin/teachers">
+                    <flux:navlist.item icon="academic-cap" href="{{route('admin.teacher.index')}}">
                         {{ __('Manage Teachers') }}
                     </flux:navlist.item>
 

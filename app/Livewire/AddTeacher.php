@@ -56,6 +56,8 @@ public function mount($id = null)
         ]);
 
         session()->flash('success', 'Teacher added successfully!');
+
+       return redirect()->route(route: 'admin.teacher.index');
     }
 
     public function update()
@@ -84,6 +86,7 @@ public function mount($id = null)
         ]);
 
         session()->flash('success', 'Teacher updated successfully!');
+         return redirect()->route(route: 'admin.teacher.index');
     }
 
     public function render()

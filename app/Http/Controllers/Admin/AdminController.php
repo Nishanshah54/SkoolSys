@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        $total_student=Student::all()->count();
-        $total_teacher=User::where('role','teacher')->count();
+        $total_student=Student::count();
+        $total_teacher=Teacher::count();
         $total_parent=User::where('role','parent')->count();
 
         $count=['total_student'=>$total_student,'total_teacher'=>$total_teacher,'total_parent'=>$total_parent];

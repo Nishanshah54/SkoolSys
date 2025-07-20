@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
         }
     })->name('dashboard');
 
-    Route::middleware(['role:admin'])->group(function () {
+    Route::middleware(['role:admin','check.status'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
         Route::get('/admin/students', action: [StudentController::class, 'index'])->name('admin.students.index');
         Route::get('/students/add', [StudentController::class,'store'])->name(name: 'students.add');
@@ -51,19 +51,19 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    Route::middleware(['role:teacher'])->group(function () {
+    Route::middleware(['role:teacher','check.status'])->group(function () {
         Route::get('/teacher/dashboard', function () {
             return view('teacher.dashboard');
         })->name('teacher.dashboard');
     });
 
-    Route::middleware(['role:student'])->group(function () {
+    Route::middleware(['role:student','check.status'])->group(function () {
         Route::get('/student/dashboard', function () {
             return view('student.dashboard');
         })->name('student.dashboard');
     });
 
-    Route::middleware(['role:parent'])->group(function () {
+    Route::middleware(['role:parent','check.status'])->group(function () {
         Route::get('/parent/dashboard', function () {
             return view('parent.dashboard');
         })->name('parent.dashboard');

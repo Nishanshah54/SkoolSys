@@ -74,13 +74,16 @@ protected function dashboardRouteName(): string
 
     protected function credentials(): array
     {
+        $base = ['password' => $this->password, 'status' => [0, 1]];
+
         return match ($this->role) {
-            'admin', 'teacher' => ['email' => $this->email, 'password' => $this->password],
-            'student' => ['student_id' => $this->student_id, 'password' => $this->password],
-            'parent' => ['phone' => $this->phone, 'password' => $this->password],
+            'admin', 'teacher' => array_merge($base, ['email' => $this->email]),
+            'student' => array_merge($base, ['student_id' => $this->student_id]),
+            'parent' => array_merge($base, ['phone' => $this->phone]),
             default => [],
         };
     }
+
 
     protected function ensureIsNotRateLimited(): void
     {

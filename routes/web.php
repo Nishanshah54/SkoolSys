@@ -61,6 +61,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/student/dashboard', function () {
             return view('student.dashboard');
         })->name('student.dashboard');
+
+        Route::get('student/profile',[StudentController::class.'profile'])->name('student.profile');
+        Route::get('student/timetable',[StudentController::class.'timetable'])->name('student.timetable');
+        Route::get('student/updates',[StudentController::class.'updates'])->name('student.updates');
+        Route::get('student/result',[StudentController::class.'result'])->name('student.results');
+        Route::get('student/assignments',[StudentController::class.'assignments'])->name('student.assignments');
+        Route::get('student/assignments/show',[StudentController::class.'show'])->name('student.assignment.show');
     });
 
     Route::middleware(['role:parent','check.status'])->group(function () {

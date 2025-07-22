@@ -16,7 +16,7 @@ class LoginForm extends Component
 {
  public string $role = '';
     public string $student_id = '';
-    public string $phone = '';
+    public string $mobile_number = '';
     public string $email = '';
 
     #[Validate('required|string')]
@@ -73,7 +73,7 @@ protected function dashboardRouteName(): string
         $roleSpecific = match ($this->role) {
             'admin', 'teacher' => ['email' => 'required|email'],
             'student' => ['student_id' => 'required|string'],
-            'parent' => ['phone' => 'required|string'],
+            'parent' => ['mobile_number' => 'required|string'],
             default => [],
         };
 
@@ -85,7 +85,7 @@ protected function dashboardRouteName(): string
         return match ($this->role) {
             'admin', 'teacher' => ['email' => $this->email, 'password' => $this->password],
             'student' => ['student_id' => $this->student_id, 'password' => $this->password],
-            'parent' => ['phone' => $this->phone, 'password' => $this->password],
+            'parent' => ['mobile_number' => $this->mobile_number, 'password' => $this->password],
             default => [],
         };
     }
@@ -110,7 +110,7 @@ protected function dashboardRouteName(): string
 
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email ?: $this->phone ?: $this->student_id) . '|' . request()->ip());
+        return Str::transliterate(Str::lower($this->email ?: $this->mobile_number ?: $this->student_id) . '|' . request()->ip());
     }
 
        public function mount(): void
@@ -127,7 +127,7 @@ protected function dashboardRouteName(): string
         return match ($this->role) {
             'admin', 'teacher' => 'email',
             'student' => 'student_id',
-            'parent' => 'phone',
+            'parent' => 'mobile_number',
             default => 'email',
         };
     }

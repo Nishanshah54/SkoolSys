@@ -76,7 +76,7 @@
                         <x-table.td>{{ $teacher->id }}</x-table.td>
                         <x-table.td>{{ $teacher->name }}</x-table.td>
                         <x-table.td>{{ $teacher->email }}</x-table.td>
-                        <x-table.td>{{ $teacher->phone }}</x-table.td>
+                        <x-table.td>{{ $teacher->mobile_number }}</x-table.td>
                         <x-table.td>{{ $teacher->gender }}</x-table.td>
                         <x-table.td>{{ $teacher->address }}</x-table.td>
                         <x-table.td class="capitalize">{{ $teacher->qualification }}</x-table.td>

@@ -93,7 +93,7 @@ new class extends Component {
                         <flux:input wire:model="email" :label="__('Email')" type="email" required />
                     @elseif (auth()->user()?->student_id)
                         <flux:input wire:model="student_id" :label="__('Student ID')" type="text" required />
-                    @elseif (auth()->user()?->mobile_number ?? auth()->user()?->phone)
+                    @elseif (auth()->user()?->mobile_number ?? auth()->user()?->mobile_number)
                         <flux:input wire:model="mobile_number" :label="__('Mobile Number')" type="text" required />
                     @endif
                 @endauth

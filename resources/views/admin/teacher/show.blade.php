@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <x-table.td>Phone</x-table.td>
-                <x-table.td>{{ $teacher->phone }}</x-table.td>
+                <x-table.td>{{ $teacher->mobile_number }}</x-table.td>
             </tr>
             <tr>
                 <x-table.td>Gender</x-table.td>

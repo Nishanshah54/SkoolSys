@@ -19,7 +19,7 @@ class TeacherFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'phone' => fake()->phoneNumber(),
+            'mobile_number' => fake()->phoneNumber(),
             'gender' => fake()->randomElement(['male', 'female']),
             'dob' => fake()->date('Y-m-d', '2001-01-01'),
             'address' => fake()->address(),

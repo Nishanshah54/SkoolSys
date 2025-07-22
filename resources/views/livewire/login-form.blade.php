@@ -28,7 +28,7 @@
 
         <!-- Phone Number -->
         <template x-if="role === 'parent'">
-            <flux:input wire:model="phone" :label="__('Phone Number')" type="text" required autofocus
+            <flux:input wire:model="mobile_number" :label="__('Phone Number')" type="text" required autofocus
                 placeholder="e.g. +1234567890" />
         </template>
 

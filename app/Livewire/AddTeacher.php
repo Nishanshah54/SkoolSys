@@ -10,7 +10,7 @@ class AddTeacher extends Component
    public $isEdit = false;
 
     public $teacherId;
-    public $name, $email, $phone, $gender, $dob, $address, $qualification, $specialization;
+    public $name, $email, $mobile_number, $gender, $dob, $address, $qualification, $specialization;
 
 public function mount($id = null)
 {
@@ -21,7 +21,7 @@ public function mount($id = null)
         $this->teacherId = $teacher->id;
         $this->name = $teacher->name;
         $this->email = $teacher->email;
-        $this->phone = $teacher->phone;
+        $this->mobile_number = $teacher->mobile_number;
         $this->gender = $teacher->gender;
         $this->dob = $teacher->dob;
         $this->address = $teacher->address;
@@ -36,7 +36,7 @@ public function mount($id = null)
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:teachers,email',
-            'phone' => 'required|string',
+            'mobile_number' => 'required|string',
             'gender' => 'required',
             'dob' => 'required|date',
             'address' => 'required|string',
@@ -47,7 +47,7 @@ public function mount($id = null)
         Teacher::create([
             'name' => $this->name,
             'email' => $this->email,
-            'phone' => $this->phone,
+            'mobile_number' => $this->mobile_number,
             'gender' => $this->gender,
             'dob' => $this->dob,
             'address' => $this->address,
@@ -65,7 +65,7 @@ public function mount($id = null)
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => "required|email|unique:teachers,email,{$this->teacherId}",
-            'phone' => 'required|string',
+            'mobile_number' => 'required|string',
             'gender' => 'required',
             'dob' => 'required|date',
             'address' => 'required|string',
@@ -77,7 +77,7 @@ public function mount($id = null)
         $teacher->update([
             'name' => $this->name,
             'email' => $this->email,
-            'phone' => $this->phone,
+            'mobile_number' => $this->mobile_number,
             'gender' => $this->gender,
             'dob' => $this->dob,
             'address' => $this->address,

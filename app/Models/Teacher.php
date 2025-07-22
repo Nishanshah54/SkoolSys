@@ -19,7 +19,7 @@ class Teacher extends Model
         'dob',
         'address',
         'qualification',
-        'phone',
+        'mobile_number',
         'specialization'
         ];
 

@@ -27,9 +27,9 @@
             {{-- Phone --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
-                <input wire:model.defer="phone" type="text" required placeholder="e.g. +1234567890"
+                <input wire:model.defer="mobile_number" type="text" required placeholder="e.g. +1234567890"
                     class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-sm text-gray-800 dark:text-gray-100" />
-                @error('phone') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                @error('mobile_number') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
             </div>
 
             {{-- Gender --}}

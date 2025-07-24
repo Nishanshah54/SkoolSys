@@ -70,5 +70,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'parent',
             'mobile_number' => $anotherStudent->mobile_number,
         ]);
+
+          $this->call([
+        CourseSeeder::class,
+    ]);
     }
 }

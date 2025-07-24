@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\admin\TeacherController;
+use App\Http\Controllers\CourseController;
 use App\Livewire\AddStudent;
 use App\Livewire\AddTeacher;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/admin/teacher',TeacherController::class)->names('admin.teacher');
         Route::post('teacher/{id}/restore', [TeacherController::class, 'restore'])->name('teacher.restore');
         Route::delete('teacher/{id}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.forceDelete');
+        Route::resource( 'courses', CourseController::class)->names('courses');
 
     });
 

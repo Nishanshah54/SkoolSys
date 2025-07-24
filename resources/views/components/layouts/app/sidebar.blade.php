@@ -30,7 +30,7 @@
                         {{ __('Manage Teachers') }}
                     </flux:navlist.item>
 
-                    <flux:navlist.item icon="book-open-text" href="/admin/courses">
+                    <flux:navlist.item icon="book-open-text" href="{{route('courses.index')}}">
                         {{ __('Manage Courses') }}
                     </flux:navlist.item>
 

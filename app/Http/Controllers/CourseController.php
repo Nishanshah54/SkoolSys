@@ -9,7 +9,10 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::query()
+        // ->with('department') // Example relationship
+        ->paginate(config('skoolsys.paginate_page' ?? 10));
+
         return view('courses.index', compact('courses'));
     }
 

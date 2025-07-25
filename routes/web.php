@@ -37,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:admin','check.status'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-        Route::get('/admin/students', action: [StudentController::class, 'index'])->name('admin.students.index');
-        Route::get('/students/add', [StudentController::class,'store'])->name(name: 'students.add');
+        Route::get('/admin/students',  [StudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/students/add', [StudentController::class,'store'])->name( 'students.add');
         Route::get('/students/edit/{student}', AddStudent::class)->name('students.edit');
         Route::get('/students/view/{student}', [StudentController::class, 'show'])->name('students.show');
         Route::delete('/students/{student}',  [StudentController::class, 'destroy'])->name('students.destroy');

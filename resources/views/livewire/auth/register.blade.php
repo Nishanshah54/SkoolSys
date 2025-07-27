@@ -20,40 +20,61 @@ new #[Layout('components.layouts.auth')] class extends Component {
     /**
      * Handle an incoming registration request.
      */
-    public function register(): void
-    {
-        $base_rules = [
-            'role' => ['required', 'in:account,teacher,student,parent'],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ];
+public function register(): void
+{
+    $base_rules = [
+        'role' => ['required', 'in:account,teacher,student,parent'],
+        'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+    ];
 
-        $role_specific_rules = match ($this->role) {
-            'admin', 'teacher' => [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            ],
-            'student' => [
-                'name' => ['required', 'string', 'max:255'],
-                'student_id' => ['required', 'string', 'unique:' . User::class . ',student_id'],
-            ],
-            'parent' => [
-                'name' => ['required', 'string', 'max:255'],
-                'mobile_number' => ['required', 'string', 'unique:' . User::class . ',mobile_number'],
-            ],
-            default => [],
-        };
+    $role_specific_rules = match ($this->role) {
+        'admin', 'teacher' => [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+        ],
+        'student' => [
+            'name' => ['required', 'string', 'max:255'],
+            'student_id' => ['required', 'string', 'unique:' . User::class . ',student_id'],
+        ],
+        'parent' => [
+            'name' => ['required', 'string', 'max:255'],
+            'mobile_number' => ['required', 'string', 'unique:' . User::class . ',mobile_number'],
+        ],
+        default => [],
+    };
 
-        $validated = $this->validate([...$base_rules, ...$role_specific_rules]);
+    $validated = $this->validate([...$base_rules, ...$role_specific_rules]);
+    $validated['password'] = Hash::make($validated['password']);
 
-        $validated['password'] = Hash::make($validated['password']);
-
+    try {
         $user = User::create([...$validated, 'role' => $this->role]);
 
         event(new Registered($user));
         Auth::login($user);
 
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route('dashboard', false), true);
+
+    } catch (\Illuminate\Database\QueryException $e) {
+        // MySQL error 1452 = foreign key constraint fails
+        if ($e->errorInfo[1] == 1452) {
+            if ($this->role === 'student') {
+                $this->addError('student_id', 'Your student ID was not found. Please contact the administrator to be added first.');
+            } elseif ($this->role === 'parent') {
+                $this->addError('mobile_number', 'Your mobile number was not found. A student must be registered first by the admin using this number.');
+            } else {
+                $this->addError('register', 'Registration failed due to a data link issue. Please contact support.');
+            }   } else {
+            // Other database error
+            report($e);
+            $this->addError('register', 'Registration failed due to a database error.');
+        }
+
+    } catch (\Exception $e) {
+        report($e);
+        $this->addError('register', 'An unexpected error occurred during registration.');
     }
+}
+
 }; ?>
 
 <div class="flex flex-col gap-6">

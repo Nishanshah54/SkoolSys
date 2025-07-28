@@ -3,173 +3,7 @@
         <!-- Stats Cards Row -->
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
             <!-- Classes Card -->
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Active Classes</h3>
-                        <p class="mt-1 text-2xl font-semibold text-neutral-900 dark:text-white">5</p>
-                        <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">3 classes today</p>
-                    </div>
-                    <div class="rounded-lg bg-blue-100 p-3 dark:bg-blue-900/50">
-                        <x-heroicon-o-academic-cap class="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                    </div>
-                </div>
-            </div>
 
-            <!-- Students Card -->
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Total Students</h3>
-                        <p class="mt-1 text-2xl font-semibold text-neutral-900 dark:text-white">127</p>
-                        <p class="mt-1 text-xs text-green-600 dark:text-green-400">+8 this term</p>
-                    </div>
-                    <div class="rounded-lg bg-green-100 p-3 dark:bg-green-900/50">
-                        <x-heroicon-o-user-group class="h-6 w-6 text-green-600 dark:text-green-400" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Assignments Card -->
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Pending Grading</h3>
-                        <p class="mt-1 text-2xl font-semibold text-neutral-900 dark:text-white">23</p>
-                        <p class="mt-1 text-xs text-amber-600 dark:text-amber-400">4 overdue</p>
-                    </div>
-                    <div class="rounded-lg bg-amber-100 p-3 dark:bg-amber-900/50">
-                        <x-heroicon-o-clipboard-document-check class="h-6 w-6 text-amber-600 dark:text-amber-400" />
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="grid h-full flex-1 gap-4 md:grid-cols-3">
-            <!-- Upcoming Classes -->
-            <div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800 md:col-span-2">
-                <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Today's Schedule</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between rounded-lg border border-neutral-200 p-3 dark:border-neutral-700">
-                        <div>
-                            <p class="font-medium text-neutral-900 dark:text-white">Mathematics - Grade 9</p>
-                            <p class="text-sm text-neutral-500 dark:text-neutral-400">09:00 - 10:30 | Room 204</p>
-                        </div>
-                        <x-heroicon-o-arrow-right class="h-5 w-5 text-neutral-400" />
-                    </div>
-                    <div class="flex items-center justify-between rounded-lg border border-neutral-200 p-3 dark:border-neutral-700">
-                        <div>
-                            <p class="font-medium text-neutral-900 dark:text-white">Science - Grade 10</p>
-                            <p class="text-sm text-neutral-500 dark:text-neutral-400">11:00 - 12:30 | Lab 3</p>
-                        </div>
-                        <x-heroicon-o-arrow-right class="h-5 w-5 text-neutral-400" />
-                    </div>
-                    <div class="flex items-center justify-between rounded-lg border border-neutral-200 p-3 dark:border-neutral-700">
-                        <div>
-                            <p class="font-medium text-neutral-900 dark:text-white">English - Grade 8</p>
-                            <p class="text-sm text-neutral-500 dark:text-neutral-400">14:00 - 15:30 | Room 112</p>
-                        </div>
-                        <x-heroicon-o-arrow-right class="h-5 w-5 text-neutral-400" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
-                <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Quick Actions</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
-                        <x-heroicon-o-plus-circle class="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                        <span class="mt-1 text-sm font-medium">New Assignment</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
-                        <x-heroicon-o-clipboard-document-list class="h-6 w-6 text-green-600 dark:text-green-400" />
-                        <span class="mt-1 text-sm font-medium">Grade Work</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
-                        <x-heroicon-o-chat-bubble-left-ellipsis class="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                        <span class="mt-1 text-sm font-medium">Messages</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
-                        <x-heroicon-o-calendar class="h-6 w-6 text-amber-600 dark:text-amber-400" />
-                        <span class="mt-1 text-sm font-medium">Schedule</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Recent Announcements -->
-            <div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800 md:col-span-2">
-                <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Announcements</h3>
-                <div class="space-y-3">
-                    <div class="rounded-lg border border-neutral-200 p-3 dark:border-neutral-700">
-                        <div class="flex items-start space-x-2">
-                            <div class="mt-0.5 rounded-full bg-blue-100 p-1.5 dark:bg-blue-900/50">
-                                <x-heroicon-o-megaphone class="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                            </div>
-                            <div>
-                                <p class="font-medium text-neutral-900 dark:text-white">Staff Meeting Tomorrow</p>
-                                <p class="text-sm text-neutral-500 dark:text-neutral-400">All teachers required to attend the monthly staff meeting at 3:30 PM in the conference room.</p>
-                                <p class="mt-1 text-xs text-neutral-400 dark:text-neutral-500">Posted 2 hours ago</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rounded-lg border border-neutral-200 p-3 dark:border-neutral-700">
-                        <div class="flex items-start space-x-2">
-                            <div class="mt-0.5 rounded-full bg-green-100 p-1.5 dark:bg-green-900/50">
-                                <x-heroicon-o-shield-check class="h-4 w-4 text-green-600 dark:text-green-400" />
-                            </div>
-                            <div>
-                                <p class="font-medium text-neutral-900 dark:text-white">Safety Protocol Update</p>
-                                <p class="text-sm text-neutral-500 dark:text-neutral-400">Please review the updated safety protocols in the staff portal.</p>
-                                <p class="mt-1 text-xs text-neutral-400 dark:text-neutral-500">Posted 1 day ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Student Progress -->
-            <div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
-                <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Student Progress</h3>
-                <div class="space-y-4">
-                    <div>
-                        <div class="mb-1 flex justify-between text-sm">
-                            <span>Algebra II - Chapter 5</span>
-                            <span>78%</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-700">
-                            <div class="h-2 rounded-full bg-blue-600" style="width: 78%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="mb-1 flex justify-between text-sm">
-                            <span>Literature Essay</span>
-                            <span>65%</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-700">
-                            <div class="h-2 rounded-full bg-green-600" style="width: 65%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="mb-1 flex justify-between text-sm">
-                            <span>Science Project</span>
-                            <span>42%</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-700">
-                            <div class="h-2 rounded-full bg-amber-600" style="width: 42%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-layouts.app>
-<x-layouts.app :title="__('Dashboard | Teacher')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <!-- Stats Cards Row -->
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <!-- Classes Card -->
             <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
                 <div class="flex items-center justify-between">
                     <div>
@@ -218,6 +52,55 @@
                     </div>
                 </div>
             </div>
+
+                        <!-- Notifications -->
+<div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
+    <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Notifications</h3>
+    <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+        <li class="flex justify-between items-center">
+            <span>New message from Principal</span>
+            <span class="text-xs text-blue-600 dark:text-blue-400">Just now</span>
+        </li>
+        <li class="flex justify-between items-center">
+            <span>3 students submitted late assignments</span>
+            <span class="text-xs text-amber-600 dark:text-amber-400">30 mins ago</span>
+        </li>
+        <li class="flex justify-between items-center">
+            <span>Grade 10 exam schedule updated</span>
+            <span class="text-xs text-neutral-400 dark:text-neutral-500">Today</span>
+        </li>
+    </ul>
+</div>
+<!-- Top Performing Students -->
+<div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
+    <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Top Performers</h3>
+    <ul class="space-y-2 text-sm">
+        <li class="flex justify-between">
+            <span class="text-neutral-700 dark:text-neutral-200">Ayesha Khan (Grade 9)</span>
+            <span class="font-semibold text-green-600 dark:text-green-400">96%</span>
+        </li>
+        <li class="flex justify-between">
+            <span class="text-neutral-700 dark:text-neutral-200">Daniel Roy (Grade 10)</span>
+            <span class="font-semibold text-green-600 dark:text-green-400">93%</span>
+        </li>
+        <li class="flex justify-between">
+            <span class="text-neutral-700 dark:text-neutral-200">Fatima Noor (Grade 8)</span>
+            <span class="font-semibold text-green-600 dark:text-green-400">91%</span>
+        </li>
+    </ul>
+</div>
+<!-- Recent Activity Log -->
+<div class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
+    <h3 class="mb-3 text-lg font-semibold text-neutral-900 dark:text-white">Recent Activities</h3>
+    <ul class="text-sm text-neutral-700 dark:text-neutral-300 space-y-1">
+        <li>✔️ <span class="text-green-600">English Quiz</span> graded for Grade 8</li>
+        <li>📌 <span class="text-blue-600">Homework posted</span> in Science - Grade 10</li>
+        <li>📥 <span class="text-amber-600">4 assignments submitted</span> in Mathematics</li>
+        <li>🕓 <span class="text-neutral-500">PTM scheduled for Friday</span></li>
+    </ul>
+</div>
+
+
         </div>
 
         <!-- Main Content Area -->
@@ -284,6 +167,31 @@
                         </svg>
                         <span class="mt-1 text-sm font-medium">Schedule</span>
                     </a>
+                    <a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 118 0v2M7 11h10M7 7h10" />
+    </svg>
+    <span class="mt-1 text-sm font-medium">Take Attendance</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659M13 21H5a2 2 0 01-2-2V5a2 2 0 012-2h8a2 2 0 012 2v16z" />
+    </svg>
+    <span class="mt-1 text-sm font-medium">Announcement</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v9m0-9l-3 3m3-3l3 3M4 4h16v4H4V4z" />
+    </svg>
+    <span class="mt-1 text-sm font-medium">Upload Material</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center rounded-lg border border-neutral-200 p-3 text-center hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M4 6h8m-4 12h4m-4-6h6" />
+    </svg>
+    <span class="mt-1 text-sm font-medium">Live Class</span>
+</a>
+
                 </div>
             </div>
 

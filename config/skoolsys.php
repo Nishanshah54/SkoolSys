@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'version'=> '0.0.14',
+    'version'=> '0.0.15',
     'paginate_page'=> '10'
 ];

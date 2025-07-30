@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\admin\TeacherController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentIndividualController;
 use App\Livewire\AddStudent;
 use App\Livewire\AddTeacher;
 use Illuminate\Support\Facades\Route;
@@ -65,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
         })->name('student.dashboard');
 
         Route::get('student/profile',[StudentController::class.'profile'])->name('student.profile');
-        Route::get('student/timetable',[StudentController::class.'timetable'])->name('student.timetable');
+        Route::get('student/timetable',[StudentIndividualController::class,'timetable'])->name('student.timetable');
         Route::get('student/updates',[StudentController::class.'updates'])->name('student.updates');
         Route::get('student/result',[StudentController::class.'result'])->name('student.results');
         Route::get('student/assignments',[StudentController::class.'assignments'])->name('student.assignments');

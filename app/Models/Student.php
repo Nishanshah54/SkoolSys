@@ -23,4 +23,9 @@ class Student extends Model
         return $this->hasOne(User::class);
     }
 
+        public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
 }

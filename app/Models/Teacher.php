@@ -27,5 +27,22 @@ class Teacher extends Model
     {
         return $this->hasOne(User::class);
     }
+      // A teacher can teach multiple grades
+    public function grades()
+    {
+        return $this->belongsToMany(Grade::class, 'teacher_grades');
+    }
+
+    // A teacher has many timetable entries (their teaching schedule)
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class);
+    }
+
+    // A teacher may be assigned to many students (if applicable)
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'student_teacher');
+    }
 
 }

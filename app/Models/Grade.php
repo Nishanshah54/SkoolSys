@@ -11,19 +11,25 @@ class Grade extends Model
 
     protected $fillable = ['name'];
 
-    // A Grade has many Sections
+    // A grade has many sections (e.g., A, B, C)
     public function sections()
     {
         return $this->hasMany(Section::class);
     }
 
-    // A Grade has many Students (assuming you're using a 'students' table)
+    // A grade has many students directly (useful for filtering)
     public function students()
     {
-        return $this->hasMany(Student::class); // or User::class if students are in users table
+        return $this->hasMany(Student::class);
     }
 
-    // A Grade has many Timetables (if assigning timetable per grade)
+    // A grade can be taught by multiple teachers
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_grades');
+    }
+
+    // A grade has many timetable slots
     public function timetables()
     {
         return $this->hasMany(Timetable::class);

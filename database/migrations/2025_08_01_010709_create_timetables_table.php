@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('timetables', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
-            $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
-            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
+            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('section_id')->constrained('sections')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('teacher_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade')->onUpdate('cascade');
 
             $table->enum('day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
             $table->time('start_time');
             $table->time('end_time');
-
             $table->timestamps();
         });
     }

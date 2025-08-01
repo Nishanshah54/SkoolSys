@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
+            $table->foreignId('grade_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+
         Schema::dropIfExists('sections');
     }
 };

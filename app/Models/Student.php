@@ -15,8 +15,9 @@ class Student extends Model
         'name',
         'education',
         'mobile_number',
-        'student_id'
-
+        'student_id',
+        'grade_id',
+        'section_id',
     ];
     public function user():HasOne
     {

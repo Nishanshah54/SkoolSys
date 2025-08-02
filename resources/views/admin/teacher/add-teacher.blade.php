@@ -14,7 +14,7 @@
                     </div>
 
                 <h2 class="text-xl font-semibold  text-gray-800 dark:text-gray-100">
-                    {{ __('Add Students') }}
+                    {{ __('Add Teachers') }}
                 </h2>
             </div>
             <div class="flex flex-col gap-6 p-2 ">

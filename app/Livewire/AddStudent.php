@@ -12,9 +12,17 @@ class AddStudent extends Component
     public $name;
     public $education;
     public $mobile_number;
+    public $grade_id;
+    public $section_id;
+    public $grades;
+    public $sections;
+
 
     public function mount(Student $student = null)
     {
+        $this->grades = \App\Models\Grade::all();
+        $this->sections = \App\Models\Section::all();
+
         if ($student) {
             $this->student_id = $student->id;
             $this->name = $student->name;
@@ -32,6 +40,8 @@ class AddStudent extends Component
         'name' => 'required|string|max:255',
         'education' => 'required|in:primary,secondary,higher,bachelor',
         'mobile_number' => 'nullable|regex:/^[0-9]{10,15}$/',
+        'grade_id' => 'required|exists:grades,id',
+        'section_id' => 'required|exists:sections,id',
     ];
 
     public function updated($propertyName)
@@ -42,9 +52,11 @@ class AddStudent extends Component
     private function getStudentData()
     {
         return [
-            'name' => $this->name,
-            'education' => $this->education,
-            'mobile_number' => $this->mobile_number,
+        'name' => $this->name,
+        'education' => $this->education,
+        'mobile_number' => $this->mobile_number,
+        'grade_id' => $this->grade_id,
+        'section_id' => $this->section_id,
         ];
     }
 
@@ -89,6 +101,9 @@ class AddStudent extends Component
 
     public function render()
     {
-        return view('livewire.add-student');
+        return view('livewire.add-student', [
+        'grades' => $this->grades,
+        'sections' => $this->sections,
+    ]);
     }
 }

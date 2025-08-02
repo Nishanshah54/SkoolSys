@@ -36,6 +36,31 @@
                 class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-gray-800 dark:text-gray-100 text-sm focus:ring-0 focus:outline-none" />
             @error('mobile_number') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
         </div>
+        {{-- Grade Field --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Grade</label>
+            <select wire:model.defer="grade_id" required
+                class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-gray-800 dark:text-gray-100 text-sm focus:ring-0 focus:outline-none">
+                <option value="">Select Grade</option>
+                @foreach ($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+            </select>
+            @error('grade_id') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        {{-- Section Field --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Section</label>
+            <select wire:model.defer="section_id" required
+                class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-gray-800 dark:text-gray-100 text-sm focus:ring-0 focus:outline-none">
+                <option value="">Select Section</option>
+                @foreach ($sections as $section)
+                    <option value="{{ $section->id }}">{{ $section->name }} ({{ $section->grade->name }})</option>
+                @endforeach
+            </select>
+            @error('section_id') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+        </div>
 
         {{-- Submit Button --}}
         <div class="flex justify-end">

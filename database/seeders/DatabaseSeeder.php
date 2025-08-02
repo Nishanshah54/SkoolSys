@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->call([
+        CourseSeeder::class,
+        GradeSeeder::class,
+        SectionSeeder::class,
+    ]);
         // 🔹 Seed students
         Student::factory()->count(10)->create();
 
@@ -71,8 +76,6 @@ class DatabaseSeeder extends Seeder
             'mobile_number' => $anotherStudent->mobile_number,
         ]);
 
-          $this->call([
-        CourseSeeder::class,
-    ]);
+
     }
 }

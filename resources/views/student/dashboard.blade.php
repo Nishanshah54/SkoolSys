@@ -67,7 +67,7 @@
         <div class="flex flex-col justify-between gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800 md:flex-row md:items-center">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Welcome back, {{ Auth::user()->name ?? 'Student' }}!</h1>
-                <p class="text-gray-600 dark:text-gray-300">Here's what's happening today</p>
+               <p class="text-gray-600 dark:text-gray-300"> Here's what's happening today – {{ now()->format('l, F jS') }}</p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('student.timetable') }}" class="rounded-lg bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-100 dark:hover:bg-blue-800">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
 
@@ -36,9 +37,9 @@ class StudentController extends Controller
 
         $total = Student::count();
         $trashed = Student::onlyTrashed()->count();
-
-
-        return view('admin.students.index', compact('students', 'total', 'trashed'));
+        $active_students=User::where('status',true)->where('role','student')->count();
+        $inactive_students=$total-$active_students;
+        return view('admin.students.index', compact('students', 'total', 'trashed','active_students','inactive_students'));
     }
 
 

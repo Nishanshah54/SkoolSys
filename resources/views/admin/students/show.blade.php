@@ -38,6 +38,14 @@
             <x-table.td>Update At</x-table.td>
             <x-table.td>{{ $student->updated_at->format('d M Y') }}</x-table.td>
         </tr>
+        <tr>
+            <x-table.td>Grade</x-table.td>
+            <x-table.td>{{ $student->grade->name ?? 'N/A' }}</x-table.td>
+        </tr>
+        <tr>
+            <x-table.td>Section</x-table.td>
+            <x-table.td>{{ $student->section->name ?? 'N/A' }}</x-table.td>
+        </tr>
     </x-table.table>
 
     <div class="mt-6 flex  justify-between text-center">

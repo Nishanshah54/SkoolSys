@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
             $table->foreign('mobile_number')->references('mobile_number')->on('students')->onDelete('set null');
 

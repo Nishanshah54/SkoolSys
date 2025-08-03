@@ -17,7 +17,7 @@
                     {{ __('Add Teachers') }}
                 </h2>
             </div>
-            <div class="flex flex-col gap-6 p-2 ">
+            <div class="flex flex-col gap-6 p-2 w">
                 <livewire:add-teacher/>
             </div>
 </x-layouts.app>

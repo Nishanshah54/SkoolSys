@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
@@ -18,8 +19,9 @@ class AdminController extends Controller
         $total_parent=User::where('role','parent')->count();
 
         $count=['total_student'=>$total_student,'total_teacher'=>$total_teacher,'total_parent'=>$total_parent];
+         $activities = Activity::with('user')->latest()->take(10)->get();
 
-        return view('admin.dashboard',  compact('count'));
+        return view('admin.dashboard',  compact('count','activities'));
     }
     /**
      * Show the form for creating a new resource.

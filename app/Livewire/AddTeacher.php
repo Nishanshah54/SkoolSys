@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Services\ActivityLogger;
 use Livewire\Component;
 use App\Models\Teacher;
 
@@ -44,7 +45,7 @@ public function mount($id = null)
             'specialization' => 'required|string',
         ]);
 
-        Teacher::create([
+      $teacher=  Teacher::create([
             'name' => $this->name,
             'email' => $this->email,
             'mobile_number' => $this->mobile_number,
@@ -54,6 +55,8 @@ public function mount($id = null)
             'qualification' => $this->qualification,
             'specialization' => $this->specialization,
         ]);
+         ActivityLogger::log("Added new Teacher: {$teacher->name}", 'Teacher', $teacher->id,"Info");
+
 
         session()->flash('success', 'Teacher added successfully!');
 
@@ -84,6 +87,9 @@ public function mount($id = null)
             'qualification' => $this->qualification,
             'specialization' => $this->specialization,
         ]);
+
+        // ActivityLogger::log(action: "Update Teacher: {$teacher->name}", 'teacher', $teacher->id,"info");
+ ActivityLogger::log("Update Teacher: {$teacher->name}", 'Teacher', $teacher->id,"Info");
 
         session()->flash('success', 'Teacher updated successfully!');
          return redirect()->route(route: 'admin.teacher.index');

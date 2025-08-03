@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Student;
+use App\Services\ActivityLogger;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -60,8 +61,9 @@ class AddStudent extends Component
         ];
     }
 
-    public function store()
-    {
+ public function store()
+{
+    try {
         $this->validate();
 
         $student = Student::create($this->getStudentData());
@@ -72,22 +74,48 @@ class AddStudent extends Component
             $student->save();
         }
 
+        ActivityLogger::log("Added new student: {$student->name}", 'Student', $student->id, 'Info');
+
         session()->flash('success', "Student created with ID: {$student->student_id}");
         $this->resetForm();
-        return redirect()->route(route: 'admin.students.index');
-    }
 
+        return redirect()->route('admin.students.index');
+    } catch (\Exception $e) {
+             // Optional: log activity as an error
+        ActivityLogger::log("Failed to add new student", 'Student', null, 'Error');
+
+        session()->flash('error', 'Something went wrong while creating the student.');
+        return back()->withInput();
+    }
+}
     public function update()
-    {
+{
+    try {
         $this->validate();
 
         $student = Student::findOrFail($this->student_id);
         $student->update($this->getStudentData());
 
-        session()->flash('success', "Student updated successfully with ID.:{$student->student_id}");
+        ActivityLogger::log("Updated student: {$student->name}", 'Student', $student->id, 'Info');
+
+        session()->flash('success', "Student updated successfully with ID: {$student->student_id}");
         $this->resetForm();
+
         return redirect()->route('admin.students.index');
+    } catch (\Exception $e) {
+        // Log the technical error for developers
+        \Log::error('Student Update Error: ' . $e->getMessage(), [
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        // Optionally log to activity table as an error
+        ActivityLogger::log("Failed to update student", 'Student', $this->student_id, 'Error');
+
+        session()->flash('error', 'Something went wrong while updating the student.');
+        return back()->withInput();
     }
+}
+
 
     public function submit()
     {

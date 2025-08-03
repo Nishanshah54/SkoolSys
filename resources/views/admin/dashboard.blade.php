@@ -132,6 +132,7 @@
                                     <x-table.th>User</x-table.th>
                                     <x-table.th>Activity</x-table.th>
                                     <x-table.th>Target</x-table.th>
+                                    <x-table.th>ID</x-table.th>
                                     <x-table.th>Time</x-table.th>
                                     <x-table.th>Status</x-table.th>
                                 </tr>
@@ -153,6 +154,7 @@
 
                                     <x-table.td>{{ $activity->action }}</x-table.td>
                                     <x-table.td>{{ $activity->target_type }}</x-table.td>
+                                    <x-table.td>{{ $activity->target_id }}</x-table.td>
                                     <x-table.td>{{ $activity->created_at->diffForHumans() }}</x-table.td>
 
                                     <x-table.td>

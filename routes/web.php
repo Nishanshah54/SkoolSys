@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\admin\TeacherController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentIndividualController;
 use App\Http\Controllers\SubjectController;
 use App\Livewire\AddStudent;
@@ -53,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('teacher/{id}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.forceDelete');
         Route::resource( 'courses', CourseController::class)->names('courses');
         Route::resource('subjects', SubjectController::class)->names('subjects');
+        Route::resource('schedules', ScheduleController::class);
 
     });
 

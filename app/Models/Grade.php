@@ -34,4 +34,8 @@ class Grade extends Model
     {
         return $this->hasMany(Timetable::class);
     }
+    public function schedules()
+    {
+    return $this->hasMany(Schedule::class);
+    }
 }

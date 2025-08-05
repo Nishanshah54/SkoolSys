@@ -12,10 +12,13 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+
         $this->call([
         CourseSeeder::class,
         GradeSeeder::class,
         SectionSeeder::class,
+        SubjectSeeder::class,
+        ScheduleSeeder::class,
     ]);
         // 🔹 Seed students
         Student::factory()->count(10)->create();
@@ -75,6 +78,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'parent',
             'mobile_number' => $anotherStudent->mobile_number,
         ]);
+
 
 
     }

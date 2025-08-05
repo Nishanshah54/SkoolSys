@@ -34,8 +34,8 @@
                         {{ __('Manage Courses') }}
                     </flux:navlist.item>
 
-                    <flux:navlist.item icon="calendar-date-range" href="/admin/schedule">
-                        {{ __('Class Schedule') }}
+                    <flux:navlist.item icon="calendar-date-range" href="{{route('schedules.index')}}">
+                        {{ __('Create Schedule') }}
                     </flux:navlist.item>
                 </x-sidebar-dropdown>
 

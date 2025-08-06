@@ -44,6 +44,9 @@
                 </option>
             @endforeach
         </select>
+        @error('grade_id')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Subject --}}
@@ -59,6 +62,9 @@
                 </option>
             @endforeach
         </select>
+        @error('subject_id')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Teacher --}}
@@ -74,6 +80,9 @@
                 </option>
             @endforeach
         </select>
+        @error('teacher_id')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Day of Week --}}
@@ -89,6 +98,9 @@
                 </option>
             @endforeach
         </select>
+        @error('day_of_week')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Start Time --}}
@@ -97,6 +109,9 @@
         <input name="start_time" type="time" required
             value="{{ old('start_time', $schedule->start_time ?? '') }}"
             class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-sm text-gray-800 dark:text-gray-100" />
+        @error('start_time')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- End Time --}}
@@ -105,6 +120,18 @@
         <input name="end_time" type="time" required
             value="{{ old('end_time', $schedule->end_time ?? '') }}"
             class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md text-sm text-gray-800 dark:text-gray-100" />
+        @error('end_time')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
+
+        {{-- Custom validation errors --}}
+        @error('time')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
+
+        @error('conflict')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Submit Button --}}

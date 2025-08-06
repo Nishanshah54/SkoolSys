@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -36,38 +37,71 @@ class ScheduleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'grade_id' => 'required|exists:grades,id',
-                'teacher_id' => 'required|exists:teachers,id',
-                'subject_id' => 'required|exists:subjects,id',
-                'day_of_week' => 'required',
-                'start_time' => 'required',
-                'end_time' => 'required|after:start_time',
-            ]);
+        */
+public function store(Request $request)
+{
+    try {
+        // Step 1: Basic validation
+        $validated = $request->validate([
+            'grade_id'    => 'required|exists:grades,id',
+            'teacher_id'  => 'required|exists:teachers,id',
+            'subject_id'  => 'required|exists:subjects,id',
+            'day_of_week' => 'required',
+            'start_time'  => 'required|date_format:H:i',
+            'end_time'    => 'required|date_format:H:i|after:start_time',
+        ]);
 
-            $schedule = Schedule::create($validated);
+        // Step 2: Enforce duration limits (15 min to 2 hours)
+       $start = Carbon::createFromFormat('H:i', $validated['start_time']);
+        $end = Carbon::createFromFormat('H:i', $validated['end_time']);
 
-            // Fetch related subject and grade for logging
-            $subject = Subject::select('name')->find($request->subject_id);
-            $class_room = Grade::select('name')->find($request->grade_id);
+        // Signed difference (can be negative if start is after end)
+        $duration = $start->diffInMinutes($end, false);
 
-            // Optional: Check if this is crashing
-            ActivityLogger::log(
-                "Added new schedule for Grade ID: {$class_room->name}, Subject Name: {$subject->name}",
-                'Schedule',
-                $schedule->id,
-                'Info'
-            );
-
-            return redirect()->route('schedules.index')->with('success', 'Schedule created!');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+        if ($duration < 15 || $duration > 120) {
+            return back()->withErrors([
+                'time' => 'Duration must be at least 15 minutes and not exceed 2 hours.'
+            ])->withInput();
         }
+
+        // Step 3: Check for schedule conflict for same teacher/day/time
+        $conflict = Schedule::where('teacher_id', $validated['teacher_id'])
+            ->where('day_of_week', $validated['day_of_week'])
+            ->where(function ($query) use ($start, $end) {
+                $query->where(function ($q) use ($start, $end) {
+                    $q->where('start_time', '<', $end->format('H:i'))
+                      ->where('end_time', '>', $start->format('H:i'));
+                });
+            })
+            ->exists();
+
+        if ($conflict) {
+            return back()->withErrors([
+                'conflict' => 'Schedule conflict: This teacher already has a class at this time.',
+            ])->withInput();
+        }
+
+        // Step 4: Save schedule
+        $schedule = Schedule::create($validated);
+
+        // Step 5: Logging (optional but preserved)
+        $subject = Subject::select('name')->find($validated['subject_id']);
+        $class_room = Grade::select('name')->find($validated['grade_id']);
+
+        ActivityLogger::log(
+            "Added new schedule for Grade: {$class_room->name}, Subject: {$subject->name}",
+            'Schedule',
+            $schedule->id,
+            'Info'
+        );
+
+        return redirect()->route('schedules.index')->with('success', 'Schedule created!');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage())->withInput();
     }
+}
+
 
 
 

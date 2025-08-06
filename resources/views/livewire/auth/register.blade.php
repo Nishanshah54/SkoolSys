@@ -51,6 +51,11 @@ public function register(): void
 
         event(new Registered($user));
         Auth::login($user);
+        \App\Services\ActivityLogger::log( ucfirst($this->role) . " registered: {$user->name}",
+         ucfirst($this->role),
+        $user->id,
+        'Info'
+    );
 
         $this->redirectIntended(route('dashboard', false), true);
 

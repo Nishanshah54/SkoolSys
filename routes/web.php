@@ -9,6 +9,7 @@ use App\Http\Controllers\StudentIndividualController;
 use App\Http\Controllers\SubjectController;
 use App\Livewire\AddStudent;
 use App\Livewire\AddTeacher;
+use App\Models\Activity;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
         Route::resource( 'courses', CourseController::class)->names('courses');
         Route::resource('subjects', SubjectController::class)->names('subjects');
         Route::resource('schedules', ScheduleController::class);
+        Route::get('/recentactivies', function () {
+
+            $activities = Activity::with('user')->get();
+            return view('recent-activites',  compact('activities'));
+        })->name('recent.activites');
 
     });
 

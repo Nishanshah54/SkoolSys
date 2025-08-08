@@ -46,39 +46,41 @@ public function register(): void
     $validated = $this->validate([...$base_rules, ...$role_specific_rules]);
     $validated['password'] = Hash::make($validated['password']);
 
+    if ($this->role === 'teacher') {
+        $teacherExists = \App\Models\Teacher::where('email', $this->email)->exists();
+        $alreadyRegistered = \App\Models\User::where('email', $this->email)->exists();
+
+        if (! $teacherExists) {
+            $this->addError('email', 'Your email is not registered as a teacher. Please contact the administrator.');
+            return;
+        }
+
+        if ($alreadyRegistered) {
+            $this->addError('email', 'This teacher is already registered.');
+            return;
+        }
+    }
+
     try {
         $user = User::create([...$validated, 'role' => $this->role]);
 
         event(new Registered($user));
         Auth::login($user);
-        \App\Services\ActivityLogger::log( ucfirst($this->role) . " registered: {$user->name}",
-         ucfirst($this->role),
-        $user->id,
-        'Info'
-    );
+        \App\Services\ActivityLogger::log(
+            ucfirst($this->role) . " registered: {$user->name}",
+            ucfirst($this->role),
+            $user->id,
+            'Info'
+        );
 
         $this->redirectIntended(route('dashboard', false), true);
-
-    } catch (\Illuminate\Database\QueryException $e) {
-        // MySQL error 1452 = foreign key constraint fails
-        if ($e->errorInfo[1] == 1452) {
-            if ($this->role === 'student') {
-                $this->addError('student_id', 'Your student ID was not found. Please contact the administrator to be added first.');
-            } elseif ($this->role === 'parent') {
-                $this->addError('mobile_number', 'Your mobile number was not found. A student must be registered first by the admin using this number.');
-            } else {
-                $this->addError('register', 'Registration failed due to a data link issue. Please contact support.');
-            }   } else {
-            // Other database error
-            report($e);
-            $this->addError('register', 'Registration failed due to a database error.');
-        }
 
     } catch (\Exception $e) {
         report($e);
         $this->addError('register', 'An unexpected error occurred during registration.');
     }
 }
+
 
 }; ?>
 

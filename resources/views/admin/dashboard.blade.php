@@ -107,6 +107,6 @@
         </div>
 
         <!-- Main Content Area -->
-          @include('recentActivities.index'); @include('recent-activites');
+          @include('recentActivities.index');
     </div>
 </x-layouts.app>

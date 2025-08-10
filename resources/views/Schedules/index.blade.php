@@ -2,14 +2,19 @@
     <div class="flex flex-col h-full w-full gap-6">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Schedules</h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Manage all class schedules in one place
-                </p>
+            <div class="flex p-5 gap-2">
+                <div class="text-9xl text-yellow-300 justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-clock-icon lucide-clipboard-clock "><path d="M16 14v2.2l1.6 1"/><path d="M16 4h2a2 2 0 0 1 2 2v.832"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h2"/><circle cx="16" cy="16" r="6"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+                </div>
+                <div class="justify-center">
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Schedules</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Manage all class schedules in one place
+                    </p>
+                </div>
             </div>
             <a href="{{ route('schedules.create') }}"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
+                class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-green-800 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -19,8 +24,8 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Schedules</p>
@@ -38,12 +43,12 @@
             </div>
 
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg border border-gray-200 dark:border-gray-700  p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Other Features Available Soon...</p>
                         <p class="text-2xl font-semibold text-gray-900 dark:text-white mt-1">
-                            {{ $activeClassesCount ?? '0' }}</p>
+                            {{ $activeClassesCount ?? '---' }}</p>
                     </div>
                     <div class="p-3 rounded-full bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -56,7 +61,7 @@
             </div>
 
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg border border-gray-200 dark:border-gray-700  p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Teachers Assigned</p>
@@ -82,8 +87,9 @@
             class="bg-white text-black dark:text-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-    <thead class="dark:bg-gray-700/50">
+    <thead class="dark:bg-gray-900">
         <tr>
+            <x-table.th>#</x-table.th>
             <x-table.th>Class</x-table.th>
             <x-table.th>Subject</x-table.th>
             <x-table.th>Teacher</x-table.th>
@@ -92,9 +98,12 @@
             <x-table.th>Actions</x-table.th>
         </tr>
     </thead>
-    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+    <tbody class="bg-white dark:bg-[#10100f] divide-y divide-gray-200 dark:divide-gray-700">
         @forelse ($schedules as $schedule)
             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                <x-table.td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                    {{ $loop->iteration }}
+                </x-table.td>
                 <x-table.td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                     {{ $schedule->grade->name }}
                 </x-table.td>
@@ -113,8 +122,8 @@
                         {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
                     </span>
                 </x-table.td>
-                <x-table.td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div class="flex justify-end space-x-2">
+                <x-table.td class="px-6 py-4 whitespace-nowrap  text-sm font-medium">
+                    <div class="flex justify-left space-x-2">
                         <a href="{{ route('schedules.edit', $schedule) }}"
                            class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                            title="Edit Schedule">
@@ -162,7 +171,7 @@
                 </td>
             </tr>
         @endforelse
-    </tbody>
+    </tbody class="dark:bg-gray-900">
 </table>
 
             </div>

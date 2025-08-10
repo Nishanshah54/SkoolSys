@@ -18,6 +18,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedules = Schedule::with(['grade', 'teacher', 'subject'])
+            ->latest()
             ->paginate(config('skoolsys.paginate_page') ?? 10);
         $teachers_count = Schedule::distinct('teacher_id')->count('teacher_id');
         return view('schedules.index', compact('schedules', 'teachers_count'));

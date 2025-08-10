@@ -71,7 +71,7 @@
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Students</p>
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active Students</p>
@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Inactive Students</p>
@@ -133,7 +133,7 @@
             </div>
 
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+            <div class="bg-white dark:bg-[#10100f] rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Trashed Students</p>
@@ -155,7 +155,7 @@
         </div>
 
         <!-- Filter and Search Controls -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-[#10100f] rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <!-- Filter Links -->
                 <div class="flex flex-wrap gap-2">
@@ -265,31 +265,36 @@
 
         <!-- Student Table -->
         <div
-            class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            class="overflow-x-auto bg-white dark:bg-[#10100f] rounded-lg shadow border border-gray-200 dark:border-gray-700">
             <x-table.table class="min-w-full">
                 <x-slot name="thead">
-                    <tr class="bg-gray-100 dark:bg-gray-700">
+                    <tr class="bg-gray-100 dark:bg-[#1b1b19]">
                         <x-table.th class="w-16">
-                            <input type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+                            {{-- <input type="checkbox"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"> --}}
                         </x-table.th>
-                        <x-table.th sortable column="name">Name</x-table.th>
-                        <x-table.th sortable column="student_id">Student ID</x-table.th>
-                        <x-table.th sortable column="education">Education</x-table.th>
-                        <x-table.th>Grade</x-table.th>
-                        <x-table.th>Section</x-table.th>
-                        <x-table.th>Contact</x-table.th>
-                        <x-table.th sortable column="created_at">Joined</x-table.th>
-                        <x-table.th class="text-right">Actions</x-table.th>
+                        <x-table.th sortable column="name">#</x-table.th>
+                        <x-table.th sortable column="name">{{__('Name')}}</x-table.th>
+                        <x-table.th sortable column="student_id">{{__('Student ID')}}</x-table.th>
+                        <x-table.th sortable column="education">{{__('Education')}}</x-table.th>
+                        <x-table.th>{{__('Grade')}}</x-table.th>
+                        <x-table.th>{{__('Section')}}</x-table.th>
+                        <x-table.th>{{__('Contact')}}</x-table.th>
+                        <x-table.th sortable column="created_at">{{__("Joined")}}</x-table.th>
+                        <x-table.th class="text-center">{{__('Actions')}}</x-table.th>
                     </tr>
                 </x-slot>
 
                 @forelse ($students as $student)
-                    <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-950">
                         <x-table.td>
                             <input type="checkbox"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         </x-table.td>
+                        <x-table.td>
+                                {{$loop->iteration}}
+                            </x-table.td>
                         <x-table.td>
                             <div class="flex items-center gap-3">
                                 <div class="flex-shrink-0">
@@ -331,7 +336,7 @@
                             <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $student->created_at->diffForHumans() }}</div>
                         </x-table.td>
-                        <x-table.td class="text-right">
+                        <x-table.td class="text-left">
                             <x-dropdown-button label="Actions">
                                 @if (request('view') === 'trash')
                                     <!-- Restore Option -->

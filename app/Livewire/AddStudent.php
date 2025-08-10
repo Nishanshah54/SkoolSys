@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Services\ActivityLogger;
 use Carbon\Carbon;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class AddStudent extends Component
 {
@@ -37,13 +38,33 @@ class AddStudent extends Component
         return !is_null($this->student_id);
     }
 
-    protected $rules = [
+
+
+public function rules()
+{
+    // Default allowed grade IDs based on education
+    $allowedGrades = match ($this->education) {
+        'primary'   => range(1, 8),
+        'secondary' => range(9, 10),
+        'higher'    => range(11, 12),
+        'bachelor'  => range(13, 25),
+        default     => [],
+    };
+
+    return [
         'name' => 'required|string|max:255',
         'education' => 'required|in:primary,secondary,higher,bachelor',
         'mobile_number' => 'nullable|regex:/^[0-9]{10,15}$/',
-        'grade_id' => 'required|exists:grades,id',
+        'grade_id' => [
+            'required',
+            'integer',
+            'exists:grades,id',
+            Rule::in($allowedGrades), 
+        ],
         'section_id' => 'required|exists:sections,id',
     ];
+}
+
 
     public function updated($propertyName)
     {

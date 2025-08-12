@@ -99,4 +99,8 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::fallback(function(){
+    return view('fallback');}
+);
+
 require __DIR__ . '/auth.php';

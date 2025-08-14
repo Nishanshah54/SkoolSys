@@ -219,5 +219,10 @@
             </div>
         </div>
 
+        @include('student.practice.practice-tests')
+        @push('scripts')
+        {{-- <script src="{{ asset('js/teszt.js') }}"></script> --}}
+
+        @endpush
     </div>
 </x-layouts.app>
